@@ -1,0 +1,21 @@
+﻿<Window x:Class="CopySilentJobFiles.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CopySilentJobFiles"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <TextBlock HorizontalAlignment="Left" Margin="219,65,0,0" Text="Enter the files to create" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBox x:Name="CreateFiles" HorizontalAlignment="Left" Margin="424,65,0,0" Text="10000" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBlock HorizontalAlignment="Left" Margin="219,133,0,0" Text="Enter the text for searching and replacing" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBox x:Name="SearchText" HorizontalAlignment="Left" Margin="424,133,0,0" Text="C:\Temp\HOPShare\SilentJob\Sample_Folder.csv" TextWrapping="Wrap" VerticalAlignment="Top" Width="305"/>
+        <TextBlock HorizontalAlignment="Left" Margin="219,241,0,0" Text="Enter the pre text" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBox x:Name="PreText" HorizontalAlignment="Left" Margin="424,241,0,0" Text="C:\Temp\HOPShare\SilentJob\Sample_Folder" TextWrapping="Wrap" VerticalAlignment="Top" Width="305"/>
+        <TextBlock HorizontalAlignment="Left" Margin="218,304,0,114" Text="Enter the post text after increment" TextWrapping="Wrap"/>
+        <TextBox x:Name="PostText" Margin="424,317,256,99" Text=".csv" TextWrapping="Wrap"/>
+        <Button Content="Button" HorizontalAlignment="Center" Margin="0,362,0,0" VerticalAlignment="Top" Height="36" Width="181" Click="Button_Click"/>
+
+    </Grid>
+</Window>

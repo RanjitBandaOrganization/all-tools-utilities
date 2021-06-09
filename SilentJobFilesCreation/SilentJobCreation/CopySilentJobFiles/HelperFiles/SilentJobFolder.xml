@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Job_Creation_Information xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <User_Name>superuser</User_Name>
+  <StartDateTime Value="" Format="" TimeZone=""/>
+  <Jobs>
+    <Job>
+      <Job_Description>Silent Load Folder data</Job_Description>
+      <Job_Definition_Name>Folder</Job_Definition_Name>
+      <Target_System_for_Validation>HEX_TS</Target_System_for_Validation>
+      <Target_Systems_for_Export>
+        <Target_System>
+          <Name>HEX_TS</Name>
+        </Target_System>
+      </Target_Systems_for_Export>
+      <Target_System_Configuration>ConfigurationTop~PlantA</Target_System_Configuration>
+	    <Suppress_ENS></Suppress_ENS>
+      <Import_Definitions_And_Files>
+        <Import_Definition>
+          <Name>Folder</Name>
+          <Files_to_Import>
+            <File>
+              <File_Path>C:\Temp\HOPShare\SilentJob\Sample_Folder.csv</File_Path>
+              <Has_Headers>true</Has_Headers>
+			</File>			
+          </Files_to_Import>
+        </Import_Definition>			
+      </Import_Definitions_And_Files>
+    </Job>
+  </Jobs>
+</Job_Creation_Information>
