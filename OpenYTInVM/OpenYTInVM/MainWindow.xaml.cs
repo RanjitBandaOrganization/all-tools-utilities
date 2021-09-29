@@ -41,10 +41,10 @@ namespace OpenYTInVM
             foreach (var item in youtubeURLsToOpen)
             {
                 System.Diagnostics.Process.Start(item);
-                System.Threading.Thread.Sleep(10000);
+                System.Threading.Thread.Sleep(1000);
             }
 
-            System.Threading.Thread.Sleep(1200000);
+            System.Threading.Thread.Sleep(360000);
             
             var psi = new ProcessStartInfo("shutdown", "/s /t 0");
             psi.CreateNoWindow = true;
