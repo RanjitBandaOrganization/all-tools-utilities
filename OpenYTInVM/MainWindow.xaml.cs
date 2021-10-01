@@ -53,9 +53,9 @@ namespace OpenYTInVM
             {
                 foreach (var item in copyDetailsList)
                 {
-                    Process.Start(string.Concat("microsoft-edge:", item.URL));
+                    //Process.Start(string.Concat("microsoft-edge:", item.URL));
 
-                    //var process = System.Diagnostics.Process.Start(item.URL);
+                    System.Diagnostics.Process.Start(item.URL);
                     if (string.Compare(txtWaitForEachURLTillURLisComplete.ToUpper(), "TRUE") == 0)
                     {
                         List<string> llstTimeComponents = item.Time.Split(':').ToList();
