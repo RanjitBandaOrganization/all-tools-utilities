@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <startup>
+    <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.8" />
+  </startup>
+  <appSettings>
+    <add key="WaitForEachURLTillURLisComplete" value="True" />
+    <add key="KillBrowserForEachURL" value="True" />
+    <add key="TimeDelayAfterOpeningURLinSeconds" value="5" />
+    <add key="NumberOfTimeToLoopWatching" value="1" />
+    <add key="NumberOfTimesToOpenURLAtOnce" value="1" />
+    <add key="ShutdownAfterAllWorkIsDone" value="True" />
+    <add key="KillBrowserFirstTimeBeforeLoading" value="True" />
+  </appSettings>
+</configuration>
