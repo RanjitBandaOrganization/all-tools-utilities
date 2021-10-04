@@ -41,11 +41,8 @@ namespace OpenYTInVM
             youtubeURLsToOpen.Clear();
             ProcessCopy processCopy = new ProcessCopy();
             List<CopyDetails> copyDetailsList = processCopy.ReadCSVAndPopulateList(".\\HelperFiles\\YT_URLs.csv");
-
-            var txtWaitForEachURLTillURLisComplete = ConfigurationManager.AppSettings["WaitForEachURLTillURLisComplete"];
-            var txtTimeDelayAfterOpeningURLinSeconds = ConfigurationManager.AppSettings["TimeDelayAfterOpeningURLinSeconds"];
-            var txtNumberOfTimeToLoopWatching = ConfigurationManager.AppSettings["NumberOfTimeToLoopWatching"];
-            var txtShutdownAfterAllWorkIsDone = ConfigurationManager.AppSettings["ShutdownAfterAllWorkIsDone"];
+            string txtWaitForEachURLTillURLisComplete, txtTimeDelayAfterOpeningURLinSeconds, txtNumberOfTimeToLoopWatching, txtNumberOfTimesToOpenURLAtOnce, txtShutdownAfterAllWorkIsDone, txtKillBrowserForEachURL;
+            ExtractAppConfigurationValues(out txtWaitForEachURLTillURLisComplete, out txtTimeDelayAfterOpeningURLinSeconds, out txtNumberOfTimeToLoopWatching, out txtNumberOfTimesToOpenURLAtOnce, out txtShutdownAfterAllWorkIsDone, out txtKillBrowserForEachURL);
             //youtubeURLsToOpen.AddRange(System.IO.File.ReadAllLines(".\\HelperFiles\\YT_URLs.txt"));
             _ = int.TryParse(txtNumberOfTimeToLoopWatching, out int lintNumberOfTimeToLoopWatching);
 
@@ -53,9 +50,17 @@ namespace OpenYTInVM
             {
                 foreach (var item in copyDetailsList)
                 {
-                    //Process.Start(string.Concat("microsoft-edge:", item.URL));
+                    ExtractAppConfigurationValues(out txtWaitForEachURLTillURLisComplete, out txtTimeDelayAfterOpeningURLinSeconds, out txtNumberOfTimeToLoopWatching, out txtNumberOfTimesToOpenURLAtOnce, out txtShutdownAfterAllWorkIsDone, out txtKillBrowserForEachURL);
+                    _ = int.TryParse(txtTimeDelayAfterOpeningURLinSeconds, out int lintTimeDelayAfterOpeningURLinSeconds);
 
-                    System.Diagnostics.Process.Start(item.URL);
+                    //Process.Start(string.Concat("microsoft-edge:", item.URL));
+                    _ = int.TryParse(txtNumberOfTimesToOpenURLAtOnce, out int lintNumberOfTimesToOpenURLAtOnce);
+                    for (int y = 0; y < lintNumberOfTimesToOpenURLAtOnce; y++)
+                    {
+                        System.Diagnostics.Process.Start(item.URL);
+                        System.Threading.Thread.Sleep(lintTimeDelayAfterOpeningURLinSeconds * 1000);
+                    }
+
                     if (string.Compare(txtWaitForEachURLTillURLisComplete.ToUpper(), "TRUE") == 0)
                     {
                         List<string> llstTimeComponents = item.Time.Split(':').ToList();
@@ -64,7 +69,7 @@ namespace OpenYTInVM
                         int lintTotalTimeinSeconds = lintTimeInMins * 60 + lintTimeInSeconds;
                         System.Threading.Thread.Sleep(lintTotalTimeinSeconds * 1000);
                     }
-                    _ = int.TryParse(txtTimeDelayAfterOpeningURLinSeconds, out int lintTimeDelayAfterOpeningURLinSeconds);
+                    //_ = int.TryParse(txtTimeDelayAfterOpeningURLinSeconds, out int lintTimeDelayAfterOpeningURLinSeconds);
                     System.Threading.Thread.Sleep(lintTimeDelayAfterOpeningURLinSeconds * 1000);
 
                     //////Process[] edgeProcessListFull = Process.GetProcesses();
@@ -77,16 +82,19 @@ namespace OpenYTInVM
                     //////    }
                     //////}
 
-                    Process[] edgeProcessList = Process.GetProcessesByName("msedge");
-
-                    foreach (Process theprocess in edgeProcessList)
+                    if (string.Compare(txtKillBrowserForEachURL.ToUpper(), "TRUE") == 0)
                     {
-                        try
+                        Process[] edgeProcessList = Process.GetProcessesByName("msedge");
+
+                        foreach (Process theprocess in edgeProcessList)
                         {
-                            theprocess.Kill();
-                        }
-                        catch (Exception)
-                        {
+                            try
+                            {
+                                theprocess.Kill();
+                            }
+                            catch (Exception)
+                            {
+                            }
                         }
                     }
 
@@ -104,6 +112,16 @@ namespace OpenYTInVM
                 Process.Start(psi);
             }
 
+        }
+
+        private static void ExtractAppConfigurationValues(out string txtWaitForEachURLTillURLisComplete, out string txtTimeDelayAfterOpeningURLinSeconds, out string txtNumberOfTimeToLoopWatching, out string txtNumberOfTimesToOpenURLAtOnce, out string txtShutdownAfterAllWorkIsDone, out string txtKillBrowserForEachURL)
+        {
+            txtWaitForEachURLTillURLisComplete = ConfigurationManager.AppSettings["WaitForEachURLTillURLisComplete"];
+            txtTimeDelayAfterOpeningURLinSeconds = ConfigurationManager.AppSettings["TimeDelayAfterOpeningURLinSeconds"];
+            txtNumberOfTimeToLoopWatching = ConfigurationManager.AppSettings["NumberOfTimeToLoopWatching"];
+            txtNumberOfTimesToOpenURLAtOnce = ConfigurationManager.AppSettings["NumberOfTimesToOpenURLAtOnce"];
+            txtShutdownAfterAllWorkIsDone = ConfigurationManager.AppSettings["ShutdownAfterAllWorkIsDone"];
+            txtKillBrowserForEachURL = ConfigurationManager.AppSettings["KillBrowserForEachURL"];
         }
     }
 }
