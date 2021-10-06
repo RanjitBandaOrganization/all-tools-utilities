@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.Diagnostics;
 using ReadCSVandCopy;
 using System.Configuration;
+using System.IO;
 
 namespace OpenYTInVM
 {
@@ -36,6 +37,18 @@ namespace OpenYTInVM
             OpenYoutubeURLsAfterevery15secs();
         }
 
+        private void AppendTextToFile(string pstrTextToAppend)
+        {
+            // Creating a file
+            string myfile = @"LogFile.txt";
+
+            // Appending the given texts
+            using (StreamWriter sw = File.AppendText(myfile))
+            {
+                sw.WriteLine(pstrTextToAppend);
+            }
+        }
+
         private void OpenYoutubeURLsAfterevery15secs()
         {
             youtubeURLsToOpen.Clear();
@@ -53,6 +66,12 @@ namespace OpenYTInVM
             {
                 foreach (var item in copyDetailsList)
                 {
+                    AppendTextToFile("------------------------");
+                    AppendTextToFile(item.Title);
+                    AppendTextToFile(item.URL);
+                    AppendTextToFile(item.Time);
+                    AppendTextToFile("------------------------");
+
                     ExtractAppConfigurationValues(out txtWaitForEachURLTillURLisComplete, out txtTimeDelayAfterOpeningURLinSeconds, out txtNumberOfTimeToLoopWatching, out txtNumberOfTimesToOpenURLAtOnce, out txtShutdownAfterAllWorkIsDone, out txtKillBrowserForEachURL);
                     _ = int.TryParse(txtTimeDelayAfterOpeningURLinSeconds, out int lintTimeDelayAfterOpeningURLinSeconds);
 
