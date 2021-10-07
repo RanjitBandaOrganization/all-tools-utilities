@@ -52,8 +52,6 @@ namespace OpenYTInVM
         private void OpenYoutubeURLsAfterevery15secs()
         {
             youtubeURLsToOpen.Clear();
-            //Mute all audio devices
-            SetVolume(0);
 
             ProcessCopy processCopy = new ProcessCopy();
             List<CopyDetails> copyDetailsList = processCopy.ReadCSVAndPopulateList(".\\HelperFiles\\YT_URLs.csv");
@@ -66,11 +64,7 @@ namespace OpenYTInVM
             {
                 foreach (var item in copyDetailsList)
                 {
-                    AppendTextToFile("------------------------");
-                    AppendTextToFile(item.Title);
-                    AppendTextToFile(item.URL);
-                    AppendTextToFile(item.Time);
-                    AppendTextToFile("------------------------");
+                    
 
                     ExtractAppConfigurationValues(out txtWaitForEachURLTillURLisComplete, out txtTimeDelayAfterOpeningURLinSeconds, out txtNumberOfTimeToLoopWatching, out txtNumberOfTimesToOpenURLAtOnce, out txtShutdownAfterAllWorkIsDone, out txtKillBrowserForEachURL);
                     _ = int.TryParse(txtTimeDelayAfterOpeningURLinSeconds, out int lintTimeDelayAfterOpeningURLinSeconds);
@@ -80,6 +74,15 @@ namespace OpenYTInVM
                     for (int y = 0; y < lintNumberOfTimesToOpenURLAtOnce; y++)
                     {
                         System.Diagnostics.Process.Start(item.URL);
+                        System.Threading.Thread.Sleep(lintTimeDelayAfterOpeningURLinSeconds * 1000);
+                        //Mute all audio devices
+                        SetVolume(0);
+                        //Logging
+                        AppendTextToFile("------------------------");
+                        AppendTextToFile(item.Title);
+                        AppendTextToFile(item.URL);
+                        AppendTextToFile(item.Time);
+                        AppendTextToFile("------------------------");
                         System.Threading.Thread.Sleep(lintTimeDelayAfterOpeningURLinSeconds * 1000);
                     }
 
