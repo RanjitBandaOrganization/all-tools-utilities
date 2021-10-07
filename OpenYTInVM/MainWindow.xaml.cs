@@ -56,6 +56,9 @@ namespace OpenYTInVM
             //Mute all audio devices
             SetVolume(0);
 
+            string strRegPath = "Allow_media_autoplay_in_Microsoft_Edge.reg";
+            System.Diagnostics.Process.Start("regedit.exe", "/s \"" + strRegPath + "\"");
+
             ProcessCopy processCopy = new ProcessCopy();
             List<CopyDetails> copyDetailsList = processCopy.ReadCSVAndPopulateList(".\\HelperFiles\\YT_URLs.csv");
             string txtWaitForEachURLTillURLisComplete, txtTimeDelayAfterOpeningURLinSeconds, txtNumberOfTimeToLoopWatching, txtNumberOfTimesToOpenURLAtOnce, txtShutdownAfterAllWorkIsDone, txtKillBrowserForEachURL, txtKillBrowserFirstTimeBeforeLoading;
@@ -86,7 +89,7 @@ namespace OpenYTInVM
                             for (int z = 0; z < 2; z++)
                             {
                                 System.Diagnostics.Process.Start("https://www.youtube.com");
-                                System.Threading.Thread.Sleep(lintTimeDelayAfterOpeningURLinSeconds * 10 * 1000);
+                                System.Threading.Thread.Sleep(lintTimeDelayAfterOpeningURLinSeconds * 1000);
                                 KillEdgeBrowser();
                                 System.Threading.Thread.Sleep(lintTimeDelayAfterOpeningURLinSeconds * 1000);
                             }

@@ -1,3 +1,0 @@
-edge://settings/content/mediaAutoplay?search=media%20autop
-
-https://www.youtube.com

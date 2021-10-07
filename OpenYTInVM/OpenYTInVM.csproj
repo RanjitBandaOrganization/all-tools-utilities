@@ -119,6 +119,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Allow_media_autoplay_in_Microsoft_Edge.reg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="HelperFiles\YT_URLs.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
