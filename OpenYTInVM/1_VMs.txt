@@ -1,0 +1,6 @@
+.\admindemo
+P@ssw0rd123$
+
+
+
+edge://settings/content/mediaAutoplay?search=media%20autoplay
