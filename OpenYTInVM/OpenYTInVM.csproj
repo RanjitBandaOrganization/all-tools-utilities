@@ -7,7 +7,7 @@
     <ProjectGuid>{3F753943-D119-4075-A123-E0A69C256A9B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>OpenYTInVM</RootNamespace>
-    <AssemblyName>OpenYTInVM</AssemblyName>
+    <AssemblyName>1_OpenYTInVM</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -122,6 +122,7 @@
     <None Include="HelperFiles\YT_URLs.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="HelperFiles\YT_URLs_FOR_TESTING.csv" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -131,6 +132,10 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="1_Settings_Edge.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
