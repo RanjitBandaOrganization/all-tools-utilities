@@ -122,6 +122,9 @@
     <None Include="Allow_media_autoplay_in_Microsoft_Edge.reg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Enable_media_autoplay_in_Microsoft_Edge_for_all_users.reg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="HelperFiles\YT_URLs.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
