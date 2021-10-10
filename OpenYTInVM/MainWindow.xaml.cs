@@ -19,11 +19,33 @@ using System.IO;
 
 namespace OpenYTInVM
 {
+
+   
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
+        //This is a replacement for Cursor.Position in WinForms
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        static extern bool SetCursorPos(int x, int y);
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        public static extern void mouse_event(int dwFlags, int dx, int dy, int cButtons, int dwExtraInfo);
+
+        public const int MOUSEEVENTF_LEFTDOWN = 0x02;
+        public const int MOUSEEVENTF_LEFTUP = 0x04;
+
+        //This simulates a left mouse click
+        public static void LeftMouseClick(int xpos, int ypos)
+        {
+            SetCursorPos(xpos, ypos);
+            mouse_event(MOUSEEVENTF_LEFTDOWN, xpos, ypos, 0, 0);
+            mouse_event(MOUSEEVENTF_LEFTUP, xpos, ypos, 0, 0);
+        }
+
+
         public List<string> youtubeURLsToOpen = new List<string>();
         bool mblnFirstTimeLaunchingTheBrowser = true;
 
@@ -53,16 +75,32 @@ namespace OpenYTInVM
         private void OpenYoutubeURLsAfterevery15secs()
         {
             youtubeURLsToOpen.Clear();
-            
-            string strRegPath = "Allow_media_autoplay_in_Microsoft_Edge.reg";
-            System.Diagnostics.Process.Start("regedit.exe", "/s \"" + strRegPath + "\"");
-            strRegPath = "Enable_media_autoplay_in_Microsoft_Edge_for_all_users.reg";
-            System.Diagnostics.Process.Start("regedit.exe", "/s \"" + strRegPath + "\"");
+
+            string txtWaitForEachURLTillURLisComplete, txtTimeDelayAfterOpeningURLinSeconds, txtNumberOfTimeToLoopWatching, txtNumberOfTimesToOpenURLAtOnce, txtShutdownAfterAllWorkIsDone, txtKillBrowserForEachURL, txtKillBrowserFirstTimeBeforeLoading, txtMuteSystem, txtAllowMediaAutoPlay, txtDisableMediaAutoPlay, txtTimeDelayBeforeClosingURLAfterCompletioninSeconds;
+            ExtractAppConfigurationValues(out txtWaitForEachURLTillURLisComplete, out txtTimeDelayAfterOpeningURLinSeconds, out txtNumberOfTimeToLoopWatching, out txtNumberOfTimesToOpenURLAtOnce, out txtShutdownAfterAllWorkIsDone, out txtKillBrowserForEachURL, out txtKillBrowserFirstTimeBeforeLoading, out txtMuteSystem, out txtAllowMediaAutoPlay, out txtDisableMediaAutoPlay, out txtTimeDelayBeforeClosingURLAfterCompletioninSeconds);
+
+            if (string.Compare(txtAllowMediaAutoPlay.ToUpper(), "TRUE") == 0)
+            {
+                //THIS SEEMS TO BE AN ISSUE WITH AUTOMATIC PLAY OPTION.   LETS INVESTIGATE FURTHER
+                string strRegPath = "Allow_media_autoplay_in_Microsoft_Edge.reg";
+                System.Diagnostics.Process.Start("regedit.exe", "/s \"" + strRegPath + "\"");
+                strRegPath = "Enable_media_autoplay_in_Microsoft_Edge_for_all_users.reg";
+                System.Diagnostics.Process.Start("regedit.exe", "/s \"" + strRegPath + "\"");
+            }
+
+            if (string.Compare(txtDisableMediaAutoPlay.ToUpper(), "TRUE") == 0)
+            {
+                //THIS SEEMS TO BE AN ISSUE WITH AUTOMATIC PLAY OPTION.   LETS INVESTIGATE FURTHER
+                string strRegPath = "Disable_media_autoplay_in_Microsoft_Edge.reg";
+                System.Diagnostics.Process.Start("regedit.exe", "/s \"" + strRegPath + "\"");
+                strRegPath = "Disable_media_autoplay_in_Microsoft_Edge_for_all_users.reg";
+                System.Diagnostics.Process.Start("regedit.exe", "/s \"" + strRegPath + "\"");
+            }
+
 
             ProcessCopy processCopy = new ProcessCopy();
             List<CopyDetails> copyDetailsList = processCopy.ReadCSVAndPopulateList(".\\HelperFiles\\YT_URLs.csv");
-            string txtWaitForEachURLTillURLisComplete, txtTimeDelayAfterOpeningURLinSeconds, txtNumberOfTimeToLoopWatching, txtNumberOfTimesToOpenURLAtOnce, txtShutdownAfterAllWorkIsDone, txtKillBrowserForEachURL, txtKillBrowserFirstTimeBeforeLoading, txtMuteSystem;
-            ExtractAppConfigurationValues(out txtWaitForEachURLTillURLisComplete, out txtTimeDelayAfterOpeningURLinSeconds, out txtNumberOfTimeToLoopWatching, out txtNumberOfTimesToOpenURLAtOnce, out txtShutdownAfterAllWorkIsDone, out txtKillBrowserForEachURL, out txtKillBrowserFirstTimeBeforeLoading, out txtMuteSystem);
+            
 
             if (string.Compare(txtMuteSystem.ToUpper(), "TRUE") == 0)
             {
@@ -82,7 +120,7 @@ namespace OpenYTInVM
                     AppendTextToFile(item.Time);
                     AppendTextToFile("------------------------");
 
-                    ExtractAppConfigurationValues(out txtWaitForEachURLTillURLisComplete, out txtTimeDelayAfterOpeningURLinSeconds, out txtNumberOfTimeToLoopWatching, out txtNumberOfTimesToOpenURLAtOnce, out txtShutdownAfterAllWorkIsDone, out txtKillBrowserForEachURL, out txtKillBrowserFirstTimeBeforeLoading, out txtMuteSystem);
+                    ExtractAppConfigurationValues(out txtWaitForEachURLTillURLisComplete, out txtTimeDelayAfterOpeningURLinSeconds, out txtNumberOfTimeToLoopWatching, out txtNumberOfTimesToOpenURLAtOnce, out txtShutdownAfterAllWorkIsDone, out txtKillBrowserForEachURL, out txtKillBrowserFirstTimeBeforeLoading, out txtMuteSystem, out txtAllowMediaAutoPlay, out txtDisableMediaAutoPlay, out txtTimeDelayBeforeClosingURLAfterCompletioninSeconds);
                     _ = int.TryParse(txtTimeDelayAfterOpeningURLinSeconds, out int lintTimeDelayAfterOpeningURLinSeconds);
 
                     //Process.Start(string.Concat("microsoft-edge:", item.URL));
@@ -106,6 +144,8 @@ namespace OpenYTInVM
                         }
                         System.Diagnostics.Process.Start(item.URL);
                         System.Threading.Thread.Sleep(lintTimeDelayAfterOpeningURLinSeconds * 1000);
+
+                        LeftMouseClick(384, 384);
                     }
 
                     if (string.Compare(txtWaitForEachURLTillURLisComplete.ToUpper(), "TRUE") == 0)
@@ -113,7 +153,9 @@ namespace OpenYTInVM
                         List<string> llstTimeComponents = item.Time.Split(':').ToList();
                         _ = int.TryParse(llstTimeComponents[0], out int lintTimeInMins);
                         _ = int.TryParse(llstTimeComponents[1], out int lintTimeInSeconds);
-                        int lintTotalTimeinSeconds = lintTimeInMins * 60 + lintTimeInSeconds;
+                        _ = int.TryParse(txtTimeDelayBeforeClosingURLAfterCompletioninSeconds, out int lintTimeDelayBeforeClosingURLAfterCompletioninSeconds);
+
+                        int lintTotalTimeinSeconds = lintTimeInMins * 60 + lintTimeInSeconds + lintTimeDelayBeforeClosingURLAfterCompletioninSeconds;
                         System.Threading.Thread.Sleep(lintTotalTimeinSeconds * 1000);
                     }
                     //_ = int.TryParse(txtTimeDelayAfterOpeningURLinSeconds, out int lintTimeDelayAfterOpeningURLinSeconds);
@@ -147,7 +189,7 @@ namespace OpenYTInVM
 
         }
 
-        private static void ExtractAppConfigurationValues(out string txtWaitForEachURLTillURLisComplete, out string txtTimeDelayAfterOpeningURLinSeconds, out string txtNumberOfTimeToLoopWatching, out string txtNumberOfTimesToOpenURLAtOnce, out string txtShutdownAfterAllWorkIsDone, out string txtKillBrowserForEachURL, out string txtKillBrowserFirstTimeBeforeLoading, out string txtMuteSystem)
+        private static void ExtractAppConfigurationValues(out string txtWaitForEachURLTillURLisComplete, out string txtTimeDelayAfterOpeningURLinSeconds, out string txtNumberOfTimeToLoopWatching, out string txtNumberOfTimesToOpenURLAtOnce, out string txtShutdownAfterAllWorkIsDone, out string txtKillBrowserForEachURL, out string txtKillBrowserFirstTimeBeforeLoading, out string txtMuteSystem, out string txtAllowMediaAutoPlay, out string txtDisableMediaAutoPlay, out string txtTimeDelayBeforeClosingURLAfterCompletioninSeconds)
         {
             txtWaitForEachURLTillURLisComplete = ConfigurationManager.AppSettings["WaitForEachURLTillURLisComplete"];
             txtTimeDelayAfterOpeningURLinSeconds = ConfigurationManager.AppSettings["TimeDelayAfterOpeningURLinSeconds"];
@@ -157,6 +199,9 @@ namespace OpenYTInVM
             txtKillBrowserForEachURL = ConfigurationManager.AppSettings["KillBrowserForEachURL"];
             txtKillBrowserFirstTimeBeforeLoading = ConfigurationManager.AppSettings["KillBrowserFirstTimeBeforeLoading"];
             txtMuteSystem = ConfigurationManager.AppSettings["MuteSystem"];
+            txtAllowMediaAutoPlay = ConfigurationManager.AppSettings["AllowMediaAutoPlay"];
+            txtDisableMediaAutoPlay = ConfigurationManager.AppSettings["DisableMediaAutoPlay"];
+            txtTimeDelayBeforeClosingURLAfterCompletioninSeconds = ConfigurationManager.AppSettings["TimeDelayBeforeClosingURLAfterCompletioninSeconds"];
         }
 
         private static void KillEdgeBrowser()

@@ -122,6 +122,14 @@
     <None Include="Allow_media_autoplay_in_Microsoft_Edge.reg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="App-DEBUG.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="App-PROD.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Disable_media_autoplay_in_Microsoft_Edge.reg" />
+    <None Include="Disable_media_autoplay_in_Microsoft_Edge_for_all_users.reg" />
     <None Include="Enable_media_autoplay_in_Microsoft_Edge_for_all_users.reg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
