@@ -196,6 +196,10 @@ namespace OpenYTInVM
                         if (string.Compare(txtMouseClick.ToUpper(), "TRUE") == 0)
                         {
                             LeftMouseClick(XPOS, YPOS);
+                            System.Threading.Thread.Sleep(2 * 1000);
+                            LeftMouseClick(XPOS, YPOS);
+                            System.Threading.Thread.Sleep(2 * 1000);
+                            LeftMouseClick(XPOS, YPOS);
                         }
                         else
                         {
