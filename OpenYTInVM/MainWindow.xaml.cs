@@ -27,7 +27,7 @@ namespace OpenYTInVM
     /// </summary>
     public partial class MainWindow : Window
     {
-        string txtWaitForEachURLTillURLisComplete, txtTimeDelayAfterOpeningURLinSeconds, txtNumberOfTimeToLoopWatching, txtNumberOfTimesToOpenURLAtOnce, txtShutdownAfterAllWorkIsDone, txtKillBrowserForEachURL, txtKillBrowserFirstTimeBeforeLoading, txtMuteSystem, txtAllowMediaAutoPlay, txtDisableMediaAutoPlay, txtTimeDelayBeforeClosingURLAfterCompletioninSeconds, txtMouseClick, txtXPOS, txtYPOS, txtOpenExternalHelperApplications, txtNumberOfMouseClicksToPerform;
+        string txtWaitForEachURLTillURLisComplete, txtTimeDelayAfterOpeningURLinSeconds, txtNumberOfTimeToLoopWatching, txtNumberOfTimesToOpenURLAtOnce, txtShutdownAfterAllWorkIsDone, txtKillBrowserForEachURL, txtKillBrowserFirstTimeBeforeLoading, txtMuteSystem, txtAllowMediaAutoPlay, txtDisableMediaAutoPlay, txtTimeDelayBeforeClosingURLAfterCompletioninSeconds, txtMouseClick, txtXPOS, txtYPOS, txtOpenExternalHelperApplications, txtNumberOfMouseClicksToPerform, txtNumberOfTimeDelayAfterOpeningURLinSecondsToWaitAtEnd;
         //This is a replacement for Cursor.Position in WinForms
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         static extern bool SetCursorPos(int x, int y);
@@ -235,6 +235,8 @@ namespace OpenYTInVM
             //
             //RANJIT - Logic - Wait for each URL is complete before opening the next URL
             //
+            _ = int.TryParse(txtNumberOfTimeDelayAfterOpeningURLinSecondsToWaitAtEnd, out int lintNumberOfTimeDelayAfterOpeningURLinSecondsToWaitAtEnd);
+
             if (string.Compare(txtWaitForEachURLTillURLisComplete.ToUpper(), "TRUE") == 0)
             {
                 AppendTextToFile("-----------STEP 5--txtWaitForEachURLTillURLisComplete--Configuration Value is ----TRUE--------------");
@@ -243,7 +245,7 @@ namespace OpenYTInVM
                 _ = int.TryParse(llstTimeComponents[0], out int lintTimeInMins);
                 _ = int.TryParse(llstTimeComponents[1], out int lintTimeInSeconds);
                 _ = int.TryParse(txtTimeDelayBeforeClosingURLAfterCompletioninSeconds, out int lintTimeDelayBeforeClosingURLAfterCompletioninSeconds);
-                int lintNumberOfSecondsReglintTimeDelayAfterOpeningURLinSeconds = 4 * lintTimeDelayAfterOpeningURLinSeconds;
+                int lintNumberOfSecondsReglintTimeDelayAfterOpeningURLinSeconds = lintNumberOfTimeDelayAfterOpeningURLinSecondsToWaitAtEnd * lintTimeDelayAfterOpeningURLinSeconds;
 
 
                 int lintTotalTimeinSeconds = (lintTimeInMins) * 60 + lintTimeInSeconds + lintTimeDelayBeforeClosingURLAfterCompletioninSeconds + lintNumberOfSecondsReglintTimeDelayAfterOpeningURLinSeconds;
@@ -258,6 +260,7 @@ namespace OpenYTInVM
 
         private void MouseClick(out int XPOS, out int YPOS, int lintTimeDelayAfterOpeningURLinSeconds)
         {
+            //lintTimeDelayAfterOpeningURLinSeconds = lintNumberOfMouseClicksToPerform
             AppendTextToFile("--------------STEP 5-----------Process URLs---MouseClick--Started----------");
             //
             //RANJIT - Logic - MAIN - Simulate USER clicks
@@ -281,6 +284,7 @@ namespace OpenYTInVM
 
         private void ProcessURL(CopyDetails item, int lintTimeDelayAfterOpeningURLinSeconds)
         {
+            //lintTimeDelayAfterOpeningURLinSeconds =  1 time
             AppendTextToFile("--------------STEP 5-----------Process URLs---ProcessURL--Started----------");
             //
             //RANJIT - Logic - MAIN - URL that will be opened and played
@@ -293,6 +297,7 @@ namespace OpenYTInVM
 
         private void FirstTimeKillTheBrowserBeforeURLLaunch(int lintTimeDelayAfterOpeningURLinSeconds)
         {
+            //lintTimeDelayAfterOpeningURLinSeconds = 4 times
             AppendTextToFile("--------------STEP 5-----------Process URLs---FirstTimeKillTheBrowserBeforeURLLaunch--Started----------");
             //
             //RANJIT - Logic - This is to kill the edge browser to skip SETUP steps while opening EDGE browser first time in new system
@@ -393,7 +398,7 @@ namespace OpenYTInVM
         private void ExtractAppConfigurationValues()
         {
             AppendTextToFile("-----------STEP 1--ExtractAppConfigurationValues--STARTED--------------");
-            ExtractAppConfigurationValues(out txtWaitForEachURLTillURLisComplete, out txtTimeDelayAfterOpeningURLinSeconds, out txtNumberOfTimeToLoopWatching, out txtNumberOfTimesToOpenURLAtOnce, out txtShutdownAfterAllWorkIsDone, out txtKillBrowserForEachURL, out txtKillBrowserFirstTimeBeforeLoading, out txtMuteSystem, out txtAllowMediaAutoPlay, out txtDisableMediaAutoPlay, out txtTimeDelayBeforeClosingURLAfterCompletioninSeconds, out txtMouseClick, out txtXPOS, out txtYPOS, out txtOpenExternalHelperApplications, out txtNumberOfMouseClicksToPerform);
+            ExtractAppConfigurationValues(out txtWaitForEachURLTillURLisComplete, out txtTimeDelayAfterOpeningURLinSeconds, out txtNumberOfTimeToLoopWatching, out txtNumberOfTimesToOpenURLAtOnce, out txtShutdownAfterAllWorkIsDone, out txtKillBrowserForEachURL, out txtKillBrowserFirstTimeBeforeLoading, out txtMuteSystem, out txtAllowMediaAutoPlay, out txtDisableMediaAutoPlay, out txtTimeDelayBeforeClosingURLAfterCompletioninSeconds, out txtMouseClick, out txtXPOS, out txtYPOS, out txtOpenExternalHelperApplications, out txtNumberOfMouseClicksToPerform, out txtNumberOfTimeDelayAfterOpeningURLinSecondsToWaitAtEnd);
             AppendTextToFile("-----------STEP 1--ExtractAppConfigurationValues--ENDED--------------");
         }
 
@@ -417,7 +422,7 @@ namespace OpenYTInVM
             AppendTextToFile("-----------STEP 2--OpenExternalHelperApplications--ENDED--------------");
         }
 
-        private void ExtractAppConfigurationValues(out string txtWaitForEachURLTillURLisComplete, out string txtTimeDelayAfterOpeningURLinSeconds, out string txtNumberOfTimeToLoopWatching, out string txtNumberOfTimesToOpenURLAtOnce, out string txtShutdownAfterAllWorkIsDone, out string txtKillBrowserForEachURL, out string txtKillBrowserFirstTimeBeforeLoading, out string txtMuteSystem, out string txtAllowMediaAutoPlay, out string txtDisableMediaAutoPlay, out string txtTimeDelayBeforeClosingURLAfterCompletioninSeconds, out string txtMouseClick, out string txtXPOS, out string txtYPOS, out string txtOpenExternalHelperApplications, out string txtNumberOfMouseClicksToPerform)
+        private void ExtractAppConfigurationValues(out string txtWaitForEachURLTillURLisComplete, out string txtTimeDelayAfterOpeningURLinSeconds, out string txtNumberOfTimeToLoopWatching, out string txtNumberOfTimesToOpenURLAtOnce, out string txtShutdownAfterAllWorkIsDone, out string txtKillBrowserForEachURL, out string txtKillBrowserFirstTimeBeforeLoading, out string txtMuteSystem, out string txtAllowMediaAutoPlay, out string txtDisableMediaAutoPlay, out string txtTimeDelayBeforeClosingURLAfterCompletioninSeconds, out string txtMouseClick, out string txtXPOS, out string txtYPOS, out string txtOpenExternalHelperApplications, out string txtNumberOfMouseClicksToPerform, out string txtNumberOfTimeDelayAfterOpeningURLinSecondsToWaitAtEnd)
         {
             txtWaitForEachURLTillURLisComplete = ConfigurationManager.AppSettings["WaitForEachURLTillURLisComplete"];
             txtTimeDelayAfterOpeningURLinSeconds = ConfigurationManager.AppSettings["TimeDelayAfterOpeningURLinSeconds"];
@@ -435,6 +440,7 @@ namespace OpenYTInVM
             txtYPOS = ConfigurationManager.AppSettings["YPOS"];
             txtOpenExternalHelperApplications = ConfigurationManager.AppSettings["OpenExternalHelperApplications"];
             txtNumberOfMouseClicksToPerform = ConfigurationManager.AppSettings["NumberOfMouseClicksToPerform"];
+            txtNumberOfTimeDelayAfterOpeningURLinSecondsToWaitAtEnd = ConfigurationManager.AppSettings["NumberOfTimeDelayAfterOpeningURLinSecondsToWaitAtEnd"]; 
         }
 
         private static void KillEdgeBrowser()
