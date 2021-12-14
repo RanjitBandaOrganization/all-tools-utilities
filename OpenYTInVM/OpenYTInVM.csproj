@@ -119,6 +119,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="..\..\..\..\R\Drives\R.B.T\9999_LWFFK\YT_URLs.csv">
+      <Link>HelperFiles\YT_URLs.csv</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Allow_media_autoplay_in_Microsoft_Edge.reg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -137,10 +141,6 @@
     <None Include="Enable_media_autoplay_in_Microsoft_Edge_for_all_users.reg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="HelperFiles\YT_URLs.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="HelperFiles\YT_URLs_FOR_TESTING.csv" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

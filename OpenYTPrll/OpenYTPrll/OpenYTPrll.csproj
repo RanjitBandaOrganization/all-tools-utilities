@@ -89,7 +89,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="..\..\OpenYTInVM\HelperFiles\YT_URLs.csv">
+    <None Include="..\..\..\..\..\R\Drives\R.B.T\9999_LWFFK\YT_URLs.csv">
       <Link>HelperFiles\YT_URLs.csv</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

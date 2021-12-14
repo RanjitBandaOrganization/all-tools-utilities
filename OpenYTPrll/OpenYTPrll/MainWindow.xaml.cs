@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -41,13 +42,24 @@ namespace OpenYTPrll
         {
             int num;
             this.youtubeURLsToOpen.Clear();
-            List<CopyDetails> list = new ProcessCopy().ReadCSVAndPopulateList(@".\HelperFiles\YT_URLs.csv");
+            string filePath = ConfigurationManager.AppSettings["FilePath"];
             string str = ConfigurationManager.AppSettings["WaitForEachURLTillURLisComplete"];
             string s = ConfigurationManager.AppSettings["TimeDelayAfterOpeningURLinSeconds"];
             string str4 = ConfigurationManager.AppSettings["ShutdownAfterAllWorkIsDone"];
             string str5 = ConfigurationManager.AppSettings["KillBrowserForEachURL"];
             int.TryParse(ConfigurationManager.AppSettings["NumberOfTimeToLoopWatching"], out num);
             int num2 = 0;
+
+            List<CopyDetails> list = null;
+
+            if (File.Exists(".\\HelperFiles\\YT_URLs.csv"))
+                list = new ProcessCopy().ReadCSVAndPopulateList(@".\HelperFiles\YT_URLs.csv");
+            else if (File.Exists(filePath))
+                list = new ProcessCopy().ReadCSVAndPopulateList(filePath);
+            else
+                throw new Exception("YT_URLs.csv file doesn't found");
+
+            
             while (true)
             {
                 if (num2 >= num)

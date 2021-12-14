@@ -31,7 +31,7 @@ namespace OpenYTInVM
             OpenYoutubeURLsAfterevery15secs();
         }
 
-        string txtWaitForEachURLTillURLisComplete, txtTimeDelayAfterOpeningURLinSeconds, txtNumberOfTimeToLoopWatching, txtNumberOfTimesToOpenURLAtOnce, txtShutdownAfterAllWorkIsDone, txtKillBrowserForEachURL, txtKillBrowserFirstTimeBeforeLoading, txtMuteSystem, txtAllowMediaAutoPlay, txtDisableMediaAutoPlay, txtTimeDelayBeforeClosingURLAfterCompletioninSeconds, txtMouseClick, txtXPOS, txtYPOS, txtOpenExternalHelperApplications, txtNumberOfMouseClicksToPerform, txtNumberOfTimeDelayAfterOpeningURLinSecondsToWaitAtEnd, txtTimeInMins = "1", txtTimeInSeconds="1";
+        string txtWaitForEachURLTillURLisComplete, txtTimeDelayAfterOpeningURLinSeconds, txtNumberOfTimeToLoopWatching, txtNumberOfTimesToOpenURLAtOnce, txtShutdownAfterAllWorkIsDone, txtKillBrowserForEachURL, txtKillBrowserFirstTimeBeforeLoading, txtMuteSystem, txtAllowMediaAutoPlay, txtDisableMediaAutoPlay, txtTimeDelayBeforeClosingURLAfterCompletioninSeconds, txtMouseClick, txtXPOS, txtYPOS, txtOpenExternalHelperApplications, txtNumberOfMouseClicksToPerform, txtNumberOfTimeDelayAfterOpeningURLinSecondsToWaitAtEnd, txtTimeInMins = "1", txtTimeInSeconds="1", txtFilePath;
         int lintNumberOfTimesToOpenURLAtOnce, lintNumberOfTimeToLoopWatching, lintTimeDelayAfterOpeningURLinSeconds, XPOS, YPOS, lintNumberOfTimeDelayAfterOpeningURLinSecondsToWaitAtEnd, lintTimeInMins, lintTimeInSeconds, lintTimeDelayBeforeClosingURLAfterCompletioninSeconds, lintNumberOfMouseClicksToPerform;
         //This is a replacement for Cursor.Position in WinForms
         [System.Runtime.InteropServices.DllImport("user32.dll")]
@@ -85,7 +85,14 @@ namespace OpenYTInVM
             //--------------STEP 5-----------Process URLs--STARTED-----------
             AppendTextToFile("--------------STEP 5-----------Process URLs--STARTED-----------");
             ProcessCopy processCopy = new ProcessCopy();
-            List<CopyDetails> copyDetailsList = processCopy.ReadCSVAndPopulateList(".\\HelperFiles\\YT_URLs.csv");
+            List<CopyDetails> copyDetailsList = null;
+
+            if (File.Exists(".\\HelperFiles\\YT_URLs.csv"))
+                copyDetailsList = processCopy.ReadCSVAndPopulateList(".\\HelperFiles\\YT_URLs.csv");
+            else if (File.Exists(txtFilePath))
+                copyDetailsList = processCopy.ReadCSVAndPopulateList(txtFilePath);
+            else
+                throw new Exception("YT_URLs.csv file doesn't found");
 
             //
             //RANJIT - Logic - This is the number of times to loop all the URLs from YT_URLs list
@@ -421,7 +428,7 @@ namespace OpenYTInVM
         private void ExtractAppConfigurationValuesActual()
         {
             AppendTextToFile("-----------STEP 1--ExtractAppConfigurationValues--STARTED--------------");
-            
+            txtFilePath = ConfigurationManager.AppSettings["FilePath"];
             txtWaitForEachURLTillURLisComplete = ConfigurationManager.AppSettings["WaitForEachURLTillURLisComplete"];
             txtTimeDelayAfterOpeningURLinSeconds = ConfigurationManager.AppSettings["TimeDelayAfterOpeningURLinSeconds"];
             txtNumberOfTimeToLoopWatching = ConfigurationManager.AppSettings["NumberOfTimeToLoopWatching"];
