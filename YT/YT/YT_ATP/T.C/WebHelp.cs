@@ -203,6 +203,38 @@ namespace YT_ATP
             }
         }
 
+        public static string ReadTextInTheWebElement(string elementLocator, string attribute)
+        {
+            string text = string.Empty;
+
+            try
+            {
+                WaitToAppear(elementLocator);
+                IWebElement webElement = webdriver.FindElement(By.CssSelector(elementLocator));
+                
+               switch(attribute.ToLower())
+                {
+                    case "text":
+                        text = webElement.Text;
+                        break;
+                    case "attributetext":
+                        text = webElement.GetAttribute("text");
+                        break;
+                    case "attributevalue":
+                        text = webElement.GetAttribute("value");
+                        break;
+                }
+
+                Console.WriteLine(text + " entered into the element with locator " + elementLocator);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return text;
+
+        }
+
         public static void SelectFromDropDown(string dropDownLocator, string optionLocator)
         {
             try

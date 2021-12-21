@@ -16,7 +16,7 @@ namespace YT_ATP
         //public static string URL = "https://www.gmail.com.br";
 
         public static string URL = "https://www.google.com";
-        public static string URLYT = "https://www.youtube.com/";
+        public static string URLyt = "https://www.youtube.com/";
         public static string SignInSelector = "div#gb div.gb_Me > a";
         public static string CreateAccountSelector = "div#view_container div.daaWTb > div > div > div:nth-child(1) > div > button";
         public static string SecondChildSelector = "div#view_container li:nth-child(2) > span.VfPpkd-StrnGf-rymPhb-b9t22c";
@@ -53,5 +53,18 @@ namespace YT_ATP
 
         //CONFIGURATION SETTINGS
         public static string GenderChildSelector = MaleGenderChildSelector;
+
+        //YT realted
+        public static string SearchFieldSelectoryt = "input#search";
+        public static string SearchButtonSelectoryt = "button#search-icon-legacy > yt-icon";
+        public static string SignInSelectoryt = "div#buttons tp-yt-paper-button#button";
+        public static string UserNameSelectoryt = "input#identifierId";
+        public static string UserNameNextSelectoryt = "div#identifierNext span";
+        public static string PasswordSelectoryt = "input[name = 'password']";
+        public static string PasswordNextSelectoryt = "div#passwordNext span";
+        public static string SubscribeSelectoryt = "div#subscribe-button yt-formatted-string";
+        
+
+
     }
 }

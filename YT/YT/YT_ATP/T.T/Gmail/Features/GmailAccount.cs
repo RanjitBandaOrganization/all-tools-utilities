@@ -1,10 +1,10 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using YT_ATP.Test.Common;
+////////using YT_ATP.Test.Common;
 using System.Threading;
 using OpenQA.Selenium;
 using System;
-using System.Configuration;
-using YT_ATP.T.C.Webdrivers;
+////////using System.Configuration;
+////////using YT_ATP.T.C.Webdrivers;
 
 namespace YT_ATP
 {
@@ -58,25 +58,25 @@ namespace YT_ATP
             WebHelp.SelectFromDropDown(SearchPage.CreateAccountSelector, SearchPage.SecondChildSelector);
             WebHelp.WaitSomeSec(8);
 
-            WebHelp.EnterTextIntoWebElement(SearchPage.FirstNameField, personSettings.FirstName);
-            WebHelp.EnterTextIntoWebElement(SearchPage.LastNameField, personSettings.LastName);
-            WebHelp.EnterTextIntoWebElement(SearchPage.UserNameField, personSettings.UserName);
-            WebHelp.EnterTextIntoWebElement(SearchPage.PasswdField, personSettings.Password);
-            WebHelp.EnterTextIntoWebElement(SearchPage.ConfPasswdField, personSettings.Password);
+            ////////WebHelp.EnterTextIntoWebElement(SearchPage.FirstNameField, personSettings.FirstName);
+            ////////WebHelp.EnterTextIntoWebElement(SearchPage.LastNameField, personSettings.LastName);
+            ////////WebHelp.EnterTextIntoWebElement(SearchPage.UserNameField, personSettings.UserName);
+            ////////WebHelp.EnterTextIntoWebElement(SearchPage.PasswdField, personSettings.Password);
+            ////////WebHelp.EnterTextIntoWebElement(SearchPage.ConfPasswdField, personSettings.Password);
             //WebHelp.SafeSelectWebElementAndPerformAction(SearchPage.NextButton, SearchPage.Actions.Click);
             WebHelp.WaitSomeSec(30);
 
-            WebHelp.EnterTextIntoWebElement(SearchPage.PhoneField, personSettings.PhoneNumber);
+            ////////WebHelp.EnterTextIntoWebElement(SearchPage.PhoneField, personSettings.PhoneNumber);
             //WebHelp.SafeSelectWebElementAndPerformAction(SearchPage.NextButtonPhoneSettings, SearchPage.Actions.Click);
 
 
             WebHelp.WaitSomeSec(30);
             WebHelp.SelectFromDropDown(SearchPage.MonthSelector, SearchPage.MonthChildSelector);
 
-            WebHelp.EnterTextIntoWebElement(SearchPage.RecoveryEmailSelector, personSettings.RecoveryMailAddress);
-            WebHelp.EnterTextIntoWebElement(SearchPage.DaySelector, personSettings.BirthDay);
-            WebHelp.EnterTextIntoWebElement(SearchPage.YearSelector, personSettings.BirthYear);
-            WebHelp.SelectFromDropDown(SearchPage.GenderSelector, (string.Equals(personSettings.Gender,"Male") ?SearchPage.MaleGenderChildSelector :SearchPage.FemaleGenderChildSelector));
+            ////////WebHelp.EnterTextIntoWebElement(SearchPage.RecoveryEmailSelector, personSettings.RecoveryMailAddress);
+            ////////WebHelp.EnterTextIntoWebElement(SearchPage.DaySelector, personSettings.BirthDay);
+            ////////WebHelp.EnterTextIntoWebElement(SearchPage.YearSelector, personSettings.BirthYear);
+            ////////WebHelp.SelectFromDropDown(SearchPage.GenderSelector, (string.Equals(personSettings.Gender,"Male") ?SearchPage.MaleGenderChildSelector :SearchPage.FemaleGenderChildSelector));
 
             ////WebHelp.SafeSelectWebElementAndPerformAction(SearchPage.NextButtonDOB, SearchPage.Actions.Click);
 
