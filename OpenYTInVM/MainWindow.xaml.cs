@@ -112,7 +112,7 @@ namespace OpenYTInVM
                     for (int y = 0; y < lintNumberOfTimesToOpenURLAtOnce; y++)
                     {
 
-                        FirstTimeKillTheBrowserBeforeURLLaunch(lintTimeDelayAfterOpeningURLinSeconds);
+                        //FirstTimeKillTheBrowserBeforeURLLaunch(lintTimeDelayAfterOpeningURLinSeconds);
 
                         ProcessURL(item, lintTimeDelayAfterOpeningURLinSeconds);
 
@@ -140,7 +140,7 @@ namespace OpenYTInVM
             // Appending the given texts
             using (StreamWriter sw = File.AppendText(myfile))
             {
-                sw.WriteLine(pstrTextToAppend);
+                sw.WriteLine(String.Concat(DateTime.Now.ToString(), " -- ", pstrTextToAppend));
             }
         }
 
@@ -153,7 +153,7 @@ namespace OpenYTInVM
             //
             //RANJIT - Logic - This is to open Mofiki's Coordinate Finder.exe, so that we can find the coordinates of the play button
             //
-            ProcessStartInfo processStartInfo1 = new ProcessStartInfo(@"C:\Users\admindemo\Desktop\Mofiki's Coordinate Finder.exe");
+            ProcessStartInfo processStartInfo1 = new ProcessStartInfo(@"D:\repos-m\all-tools-utilities\OpenYTInVM\Mofiki's Coordinate Finder.exe");
             Process.Start(processStartInfo1);
             AppendTextToFile("--Opened Coordinates Finder--");
             //
@@ -161,7 +161,7 @@ namespace OpenYTInVM
             //
             ProcessStartInfo processStartInfo = new ProcessStartInfo("notepad.exe");
             processStartInfo.WindowStyle = ProcessWindowStyle.Maximized;
-            processStartInfo.Arguments = @"C:\Users\admindemo\Desktop\1_OpenYTInVM.exe.config";
+            processStartInfo.Arguments = @"D:\repos-m\all-tools-utilities\OpenYTInVM\bin\Debug\1_OpenYTInVM.exe.config";
             Process.Start(processStartInfo);
             AppendTextToFile("--NOTEPAD--");
             AppendTextToFile("-----------STEP 2--OpenExternalHelperApplications--ENDED--------------");
@@ -222,14 +222,13 @@ namespace OpenYTInVM
                 if (string.Compare(txtWaitForEachURLTillURLisComplete.ToUpper(), "TRUE") == 0)
                 {
                     AppendTextToFile("-----------STEP 6--txtWaitForEachURLTillURLisComplete--Configuration Value is ----TRUE--------------");
-
-                    System.Threading.Thread.Sleep(1 * 1000);
+                    ApplyThreadSleepInSeconds(1);
                 }
                 else
                 {
                     AppendTextToFile("-----------STEP 6--txtWaitForEachURLTillURLisComplete--Configuration Value is ----FALSE--------------");
 
-                    System.Threading.Thread.Sleep(20 * 60 * 1000);
+                    ApplyThreadSleepInSeconds(20 * 60);
                 }
 
                 var psi = new ProcessStartInfo("shutdown", "/s /t 0");
@@ -241,6 +240,11 @@ namespace OpenYTInVM
 
         }
 
+        private void ApplyThreadSleepInSeconds(int pstrSeconds)
+        {
+            AppendTextToFile(String.Concat("-----------SLEEP Applied--", pstrSeconds, " SECONDS--------------"));
+            System.Threading.Thread.Sleep(pstrSeconds * 1000);
+        }
 
         private void ControlVolume()
         {
@@ -287,7 +291,7 @@ namespace OpenYTInVM
 
                 KillEdgeBrowser();
             }
-            System.Threading.Thread.Sleep(lintTimeDelayAfterOpeningURLinSeconds * 1000);
+            ApplyThreadSleepInSeconds(lintTimeDelayAfterOpeningURLinSeconds);
             AppendTextToFile("--------------STEP 5-----------Process URLs---KillTheBrowser--Ended----------");
 
         }
@@ -330,7 +334,7 @@ namespace OpenYTInVM
                 int lintTotalTimeinSeconds = (lintTimeInMins) * 60 + lintTimeInSeconds + lintTimeDelayBeforeClosingURLAfterCompletioninSeconds + lintNumberOfSecondsReglintTimeDelayAfterOpeningURLinSeconds;
                 AppendTextToFile(string.Concat("--------------STEP 5-----------Process URLs---WaitForEachURLTillURLisComplete--Number of seconds being weighted----------", lintTotalTimeinSeconds));
 
-                System.Threading.Thread.Sleep(lintTotalTimeinSeconds * 1000);
+                ApplyThreadSleepInSeconds(lintTotalTimeinSeconds);
             }
 
             AppendTextToFile("--------------STEP 5-----------Process URLs---WaitForEachURLTillURLisComplete--Ended----------");
@@ -352,7 +356,7 @@ namespace OpenYTInVM
                 for (int i = 0; i < lintNumberOfMouseClicksToPerform; i++)
                 {
                     LeftMouseClick(XPOS, YPOS);
-                    System.Threading.Thread.Sleep(lintTimeDelayAfterOpeningURLinSeconds * 1000);
+                    ApplyThreadSleepInSeconds(lintTimeDelayAfterOpeningURLinSeconds);
                 }
             }
             AppendTextToFile("--------------STEP 5-----------Process URLs---MouseClick--Ended----------");
@@ -367,7 +371,7 @@ namespace OpenYTInVM
             //RANJIT - Logic - MAIN - URL that will be opened and played
             //
             System.Diagnostics.Process.Start(item.URL);
-            System.Threading.Thread.Sleep(lintTimeDelayAfterOpeningURLinSeconds * 1000);
+            ApplyThreadSleepInSeconds(lintTimeDelayAfterOpeningURLinSeconds);
             AppendTextToFile("--------------STEP 5-----------Process URLs---ProcessURL--Ended----------");
 
         }
@@ -390,9 +394,9 @@ namespace OpenYTInVM
                     System.Diagnostics.Process.Start("https://www.youtube.com");
 
 
-                    System.Threading.Thread.Sleep(lintTimeDelayAfterOpeningURLinSeconds * 1000);
+                    ApplyThreadSleepInSeconds(lintTimeDelayAfterOpeningURLinSeconds);
                     KillEdgeBrowser();
-                    System.Threading.Thread.Sleep(lintTimeDelayAfterOpeningURLinSeconds * 1000);
+                    ApplyThreadSleepInSeconds(lintTimeDelayAfterOpeningURLinSeconds);
                 }
                 mblnFirstTimeLaunchingTheBrowser = false;
             }
@@ -516,14 +520,14 @@ namespace OpenYTInVM
                             //_log.Debug("Ignoring device " + dev.FriendlyName + " with state " + dev.State);
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         //Do something with exception when an audio endpoint could not be muted
                         //_log.Warn(dev.FriendlyName + " could not be muted with error " + ex);
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //When something happend that prevent us to iterate through the devices
                 //_log.Warn("Could not enumerate devices due to an excepion: " + ex.Message);
