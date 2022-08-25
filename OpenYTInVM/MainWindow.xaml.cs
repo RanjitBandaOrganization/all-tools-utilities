@@ -74,10 +74,10 @@ namespace OpenYTInVM
 
 
             //--------------STEP 2-----------Open External Helper Apps - NOTEPAD & XPOSYPOS -------------
-            OpenExternalHelperApplications();
+            //OpenExternalHelperApplications();
 
             //--------------STEP 3-----------Set ALLOW MEDIA AUTO PLAY --- ENABLE  OR   DISABLE -------------
-            SetAllowMediaAutoPlayRegisterEntries();
+            //SetAllowMediaAutoPlayRegisterEntries();
 
             //--------------STEP 4-----------Control Volume -------------
             ControlVolume();
