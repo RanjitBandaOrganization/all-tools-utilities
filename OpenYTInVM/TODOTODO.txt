@@ -1,0 +1,2 @@
+compare exe config file and update app.config
+comment the reg edit code entries
